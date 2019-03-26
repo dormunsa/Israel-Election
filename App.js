@@ -1,14 +1,28 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,Image,
+  View, 
+  TouchableOpacity,
+} from 'react-native';
 
-import ParitiesList  from '../AwesomeProject/components/parties-list'
+import ParitiesList  from './components/parties-list'
+import { Button, Header } from 'react-native-elements';
+
 
 export default class App extends React.Component {
+  
   render() {
     return (
+      <View>
+      
+
       <ParitiesList >
        
       </ParitiesList>
+      </View>
+     
     );
   }
 }

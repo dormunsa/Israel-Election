@@ -2,71 +2,41 @@ import React, { Component } from 'react'
 import { AppRegistry, ScrollView ,Platform, StyleSheet, Text, View , Image ,Button  } from 'react-native';
 import NameAndLogo from '../helpers/NameAndLogo'
 import DropdownAlert from 'react-native-dropdownalert';
-AppRegistry.registerComponent("Image", () => Image);
 
-export default class Party extends React.Component {
+export default class TopFiveParty extends React.Component {
     constructor(props){
         super(props)
         this.state = {
             party : props.party,
-            isVote : props.isVote,
             hebrewName : "",
             logo : "",
         }
-        this.Vote = this.Vote.bind(this)
     }
     componentDidMount = () => {
       console.log(this.state.party)
-      let nameAndLogo = NameAndLogo.returnNameAndLogo(this.state.party.id)
-      console.log(this.state.nameAndLogo)
+      let nameAndLogo = NameAndLogo.returnNameAndLogo(this.state.party.name)
       this.setState(previousState => (
         { hebrewName: nameAndLogo.name,
           logo: nameAndLogo.logo }
       ))
      }
-
-     Vote(event){
-       event.preventDefault()
-       fetch(`https://isr-elections.herokuapp.com/api/parties/vote/${this.state.party.id}`, {
-        method: 'POST'
-      })
-      .then((response) => {
-       if(response.ok){
-        this.dropdown.alertWithType('success', 'Success', ' ההצבעה נקלטה בהצלחה ');
-       } else {
-        this.dropdown.alertWithType('error', 'Error', ' הצבעתך לא נקלטה במערכת ');
-       }
-      })
-     .catch((error) => {
-        console.error(error);
-     });
-
-     }
-
+   
     render(){
-      console.log(this.state.logo)
-      var logo = this.state.logo
       return (
         <View style={styles.container}>
          <DropdownAlert ref={ref => this.dropdown = ref} />
           <Text style={styles.welcome}>{`${this.state.hebrewName}`}</Text>
           <Image
           style={styles.logo}
-          source={logo}
+          source= {{uri: this.state.logo}}
         />
         <View style={styles.vote}>
-        <Button
-          onPress={this.Vote}
-          title="הצבע כעת"
-          color="#841584"
-          />
+        <Text style={styles.welcome}>{`${this.state.party.percentage}%`}</Text>
           </View>
         </View>
       );
-    }
   }
-  AppRegistry.registerComponent('Party', () => Party);
-  
+}
   const styles = StyleSheet.create({
     container: {
       flex: 1,
